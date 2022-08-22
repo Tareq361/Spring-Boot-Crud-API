@@ -1,7 +1,9 @@
 package com.tareq.BOOKSHOP.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 
@@ -29,4 +31,37 @@ public Book addNewBook(Book book) {
        return bookRepository.save(book);
 	
 }
+public Optional<Book> findBookById(Long id) {
+	return bookRepository.findById(id);
+}
+public Optional<Book> findBookByTitle(String title) {
+	return bookRepository.findBookBytitle(title);
+}
+
+public String deleteBookById(Long id) {
+	// TODO Auto-generated method stub
+	bookRepository.deleteById(id);
+	return "Book Removed";
+}
+
+public Book updateBookById(Long id,Book book) {
+	// TODO Auto-generated method stub
+	Book existingBook=bookRepository.findById(id).orElse(null);
+	existingBook.setTitle(book.getTitle());
+	existingBook.setPrice(book.getPrice());
+	existingBook.setGenre(book.getGenre());
+	existingBook.setPublisher(book.getPublisher());
+	existingBook.setYearOfPublish(book.getYearOfPublish());
+	return bookRepository.save(existingBook);
+	
+	
+}
+
+public String deleteAllBooks() {
+	bookRepository.deleteAll();
+	// TODO Auto-generated method stub
+	return "All book deleted successfully";
+}
+
+
 }
